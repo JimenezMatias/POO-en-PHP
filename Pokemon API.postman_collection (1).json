@@ -1,0 +1,34 @@
+{
+	"info": {
+		"_postman_id": "3315f597-ae81-4597-ba55-6b4930d3f515",
+		"name": "Pokemon API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "45364386",
+		"_collection_link": "https://jimenezmatias.postman.co/workspace/d3dd335c-2b92-4fef-8343-e1cd1d725be6/collection/45364386-3315f597-ae81-4597-ba55-6b4930d3f515?action=share&source=collection_link&creator=45364386"
+	},
+	"item": [
+		{
+			"name": "https://pokeapi.co/api/v2/pokemon/ditto",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://pokeapi.co/api/v2/pokemon/ditto",
+					"protocol": "https",
+					"host": [
+						"pokeapi",
+						"co"
+					],
+					"path": [
+						"api",
+						"v2",
+						"pokemon",
+						"ditto"
+					]
+				},
+				"description": "Esta API de Pokemon nos trae toda la documentacion necesaria de los Pokemones."
+			},
+			"response": []
+		}
+	]
+}
