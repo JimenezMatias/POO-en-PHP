@@ -1,0 +1,291 @@
+body {
+    font-family: Arial;
+    background: #f4f4f4;
+    
+}
+
+/*LOGIN Y REGISTRO*/
+.form-container {
+    background: #fff;
+    padding: 20px;
+    max-width: 400px;
+    margin: auto;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #ccc;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    margin-right: 15px;
+}
+
+.form-group span {
+    margin-top: 10px;
+}
+
+.formulario-registro input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.formulario-login input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.btn {
+    background: #007BFF;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background: #0056b3;
+}
+
+.link {
+    display: block;
+    margin-top: 15px;
+    text-align: center;
+    color: #007BFF;
+    text-decoration: none;
+}
+
+
+/*DASHBOARD*/
+.container-nav {
+    display: flex;
+    
+}
+
+.sidebar {
+    width: 220px;
+    background-color: #ffffffff;
+    color: white;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding-top: 100px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 12px 20px;
+    color: black;
+    text-decoration: none;
+    transition: transform 0.2s ease-in-out;
+}
+
+.sidebar a:hover {
+    background-color: #000000ff;
+    border-radius: 30px;
+    color: white;
+    transform: scale(1.05); /* zoom ligero */
+}
+.Imagen-PuntoDeVenta {
+    background-color: #ffffff;
+}
+.Imagen-PuntoDeVenta img {
+     
+  width: 100%;            /* Ocupa todo el ancho disponible */
+  max-width: 150px;       /* Límite opcional para no exagerar */
+  height: auto;           /* Mantiene proporción */
+  display: block;         /* Elimina espacios fantasmas */
+  margin: 20px auto;      /* Centrado vertical y horizontal */
+  border-radius: 8px;     /* Opcional: bordes redondeados */
+  object-fit: contain;    /* Asegura que no se recorte */
+}
+
+
+/*Menu desplegable*/
+
+.navbar {
+    width: 100%;
+}
+.menu-container {
+  display: flex;
+  gap: 10px;
+}
+.dropdown button {
+    padding: 12px 20px;
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: black;
+    text-decoration: none;
+    transition: transform 0.2s ease;
+    border-radius: 30px;
+    border: none;
+}
+.menu-btn {
+    padding: 8px 12px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: black;
+    text-decoration: none;
+    transition: transform 0.2s ease;
+    border-radius: 30px;
+    border: none;
+}
+
+.menu-btn:hover {
+    background-color: #000000ff;
+    border-radius: 30px;
+    color: white;
+    transform: scale(1.05); /* zoom ligero */
+    cursor: pointer;
+}
+
+.dropdown-menu {
+  top: 100%;   /* justo debajo del botón */
+  left: 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  min-width: 150px;
+  padding: 5px 0;
+  z-index: 2000; /* encima del resto */
+
+  /* estado inicial oculto */
+  opacity: 0;  
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+
+.dropdown-menu a {
+  display: block;
+  font-size: 15px;
+  padding: 8px 12px;
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+}
+
+.dropdown a:hover {
+  background-color: #f1f1f1;
+}
+
+/* estado visible */
+.dropdown-menu.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+
+/* Modal oculto por defecto */
+.modal {
+  display: none; 
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6); /* fondo oscuro */
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* Contenido del modal */
+.modal-content {
+  background: white;
+  padding: 80px;
+  width: 500px;
+  border-radius: 20px;
+  position: relative;
+}
+
+/* Botón cerrar (X) */
+.close {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* Alineamos botones a la derecha */
+.acciones-clientes {
+  margin-top: 15px;
+  text-align: right;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+}
+
+.modal-form-container input {
+    margin-bottom: 20px;
+}
+.modal-form-container button {
+    padding: 12px 20px;
+    margin-top: 10px;
+    color: white;
+    background-color: black;
+    text-decoration: none;
+    transition: transform 0.2s ease-in-out;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.modal-form-container input {
+    width: 100%;
+    padding: 8px 0px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.modal-form-container button:hover {
+    background-color: #000000ff;
+    border-radius: 30px;
+    color: white;
+    transform: scale(1.05); /* zoom ligero */
+}
+
+.acciones-clientes button{
+    padding: 12px 20px;
+    color: black;
+    background-color: #ffffff;
+    text-decoration: none;
+    transition: transform 0.2s ease-in-out;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.acciones-clientes button:hover {
+    background-color: #000000ff;
+    border-radius: 30px;
+    color: white;
+    transform: scale(1.05); /* zoom ligero */
+}
+
+/* Tabla de clientes oculta por defecto */
+.tabla-clientes {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    display: none; /* Oculta por defecto */
+}
+
+.tabla-clientes th, .tabla-clientes td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+.tabla-clientes tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
