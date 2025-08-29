@@ -31,10 +31,10 @@ class UserRepository implements UserRepositoryInterface
         return $user ?: null;
     }
 
-    public function create(string $nombre, string $password): int
+    public function create(string $nombre, string $password, int $id_rol = 1): int
     {
-        $stmt = $this->pdo->prepare("INSERT INTO usuarios (nombre, password) VALUES (:nombre, :password)");
-        $stmt->execute(['nombre' => $nombre, 'password' => $password]);
+        $stmt = $this->pdo->prepare("INSERT INTO usuarios (nombre, password, id_rol) VALUES (:nombre, :password, :id_rol)");
+        $stmt->execute(['nombre' => $nombre, 'password' => $password, 'id_rol' => $id_rol]);
         return (int)$this->pdo->lastInsertId();
     }
 }

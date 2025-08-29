@@ -1,17 +1,16 @@
 <?php
-
 namespace App\Controladores;
-
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use App\Servicios\AuthServiceInterface;
+use App\Servicios\AuthService;
+use App\Exceptions\AuthenticationException;
 
 class AuthControlador
 {
-    private AuthServiceInterface $authService;
+    private AuthService $authService;
 
-    public function __construct(AuthServiceInterface $authService)
+    public function __construct(AuthService $authService)
     {
         $this->authService = $authService;
     }
@@ -20,39 +19,55 @@ class AuthControlador
     // Registro de usuario
     public function register(Request $request, Response $response): Response
     {
-        // 1. Capturar datos del formulario
-        $data = (array)$request->getParsedBody();
+        // Capturar datos del formulario
+        $data = $request->getParsedBody();
 
         $nombre = trim($data['nombre'] ?? '');
         $password = $data['password'] ?? '';
         $confirmPassword = $data['confirmPassword'] ?? '';
+        $idRol = 1; // rol por defecto: invitado
 
         // Validaciones básicas
-        if (!$nombre || !$password || !$confirmPassword) {
-            $response->getBody()->write(json_encode(['error' => 'Todos los campos son obligatorios']));
-            return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
+        if (empty($nombre) || empty($password) || empty($confirmPassword)) {
+            $payload = [
+                'status' => 'error',
+                'message' => 'Todos los campos son obligatorios'
+            ];
+            $response->getBody()->write(json_encode($payload));
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
         }
 
         if ($password !== $confirmPassword) {
-            $response->getBody()->write(json_encode(['error' => 'Las contraseñas no coinciden']));
-            return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
+            $payload = [
+                'status' => 'error',
+                'message' => 'Las contraseñas no coinciden'
+            ];
+            $response->getBody()->write(json_encode($payload));
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
         }
 
         try {
-            // Lógica de registro delegada a AuthService
-            $usuario = $this->authService->registrarUsuario($nombre, $password);
+            // Registrar usuario usando AuthService
+            $usuario = $this->authService->registrarUsuario($nombre, $password, $idRol);
 
-            $response->getBody()->write(json_encode([
-                'mensaje' => 'Usuario registrado correctamente',
-                'usuario' => ['id' => $usuario['id_usuario'], 'nombre' => $usuario['nombre']]
-            ]));
-            return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
+            $payload = [
+                'status' => 'success',
+                'message' => 'Usuario registrado correctamente',
+                'user' => $usuario
+            ];
+            $response->getBody()->write(json_encode($payload));
+            return $response->withHeader('Content-Type', 'application/json');
 
         } catch (\Exception $e) {
-            $response->getBody()->write(json_encode(['error' => $e->getMessage()]));
-            return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
+            $payload = [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ];
+            $response->getBody()->write(json_encode($payload));
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
         }
     }
+
     
 
 
@@ -67,52 +82,32 @@ class AuthControlador
         $nombre = $data['nombre'] ?? '';
         $password = $data['password'] ?? '';
 
-        // 2. Verificar credenciales
-        if (!$usuario) {
-            $response->getBody()->write(json_encode([
-                'error' => 'Credenciales invalidas'
-            ]));
-            return $response->withStatus(401)
-                            ->withHeader('Content-Type', 'application/json');
+        try {
+            // Verificar credenciales
+            $usuario = $this->authService->verificarCredenciales($nombre, $password);
+
+            // Generar token JWT
+            $token = $this->authService->generarToken($usuario);
+
+            // Respuesta JSON con token
+            $payload = [
+                'status' => 'success',
+                'message' => 'Login exitoso',
+                'token' => $token
+            ];
+
+            $response->getBody()->write(json_encode($payload));
+            return $response->withHeader('Content-Type', 'application/json');
+
+        } catch (AuthenticationException $e) {
+            $payload = [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ];
+            $response->getBody()->write(json_encode($payload));
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(401);
         }
-
-
-        //Generar token JWT
-        $token = $this->authService->generarToken($usuario);
-
-        $response->getBody()->write(json_encode([
-            'token' => $token,
-            'usuario' => [
-                'id' => $usuario['id_usuario'],
-                'nombre' => $usuario['nombre'],
-                'rol' => $usuario['id_rol']
-            ]
-        ]));
-
-        return $response->withHeader('Content-Type', 'application/json');
+        
     }
 
-    public function refreshToken(Request $request, Response $response): Response
-    {
-        $data = $request->getParsedBody();
-        $oldToken = $data['token'] ?? '';
-
-        $claims = $this->authService->validarToken($oldToken);
-        if (!$claims) {
-            $response->getBody()->write(json_encode([
-                'error' => 'Token inválido o expirado'
-            ]));
-            return $response->withStatus(401)
-                            ->withHeader('Content-Type', 'application/json');
-        }
-
-        // Generar un nuevo token con los mismos datos
-        $newToken = $this->authService->generarToken($claims);
-
-        $response->getBody()->write(json_encode([
-            'token' => $newToken
-        ]));
-
-        return $response->withHeader('Content-Type', 'application/json');
-    }
 }

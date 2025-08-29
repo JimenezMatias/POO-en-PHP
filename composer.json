@@ -13,6 +13,9 @@
     "require": {
         "slim/slim": "^4.0",
         "slim/psr7": "^1.4",
-        "tuupola/slim-basic-auth": "^3.4"
+        "tuupola/slim-basic-auth": "^3.4",
+        "tuupola/slim-jwt-auth": "^3.8",
+        "firebase/php-jwt": "^5.5",
+        "vlucas/phpdotenv": "^5.6"
     }
 }

@@ -7,56 +7,39 @@ use App\Controladores\AuthControlador;
 use App\Middlewares\JWTMiddleware;
 use Tuupola\Middleware\HttpbasicAuthentication;
 
-#--- Carga .env
+//Carga .env
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 
-#---Carga app Slim
+//Carga app Slim
 $app = AppFactory::create();
 $app->addBodyParsingMiddleware(); 
 
-#--- Config y servicios
-$config = new AppConfig();
-$authService = $config->getAuthService();
 
 
-#---Middlewares
-$app = new HttpBasicAuthentication([
+//Middlewares
+$app->add(new HttpBasicAuthentication([
     "users" => [
         $_ENV['BASIC_USER'] => $_ENV['BASIC_PASS']
     ],
-    "path" => ["/admin"],
-    "ignore" => ["/login", "/register"] // rutas públicas
-]);
+    "path" => ["/auth/login"],
+    "secure" => false
+]));
 
-$jwtMiddleware = new JWTMiddleware($authService);
+// rutas
+(require __DIR__ . '/../src/Rutas/Auth.php')($app);
 
-// Controlador
-$authController = new AuthController($authService);
 
-// Rutas públicas
-$app->post('/login', [$authController, 'login']);
-$app->post('/register', [$authController, 'register']);
-
-// Rutas privadas (JWT)
-$app->group('', function($group){
-    $group->get('/dashboard', function($request, $response){
-        $user = $request->getAttribute('user');
+$app->group('/dashboard', function ($group) {
+    // Aquí irían las rutas del dashboard (ejemplo: perfil, tareas, etc.)
+    $group->get('', function ($request, $response) {
         $response->getBody()->write(json_encode([
-            'mensaje' => 'Bienvenido al dashboard',
-            'user' => $user
+            "message" => "Bienvenido al dashboard protegido con JWT"
         ]));
         return $response->withHeader('Content-Type', 'application/json');
     });
-})->add($jwtMiddleware);
+})->add(new JWTMiddleware());
 
-// Admin routes (Basic Auth)
-$app->group('/admin', function($group){
-    $group->get('/panel', function($request, $response){
-        $response->getBody()->write(json_encode(['mensaje' => 'Panel admin']));
-        return $response->withHeader('Content-Type', 'application/json');
-    });
-})->add($basicAuthMiddleware);
 
 // Ejecutar app
 $app->run();

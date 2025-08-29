@@ -1,50 +1,37 @@
 <?php
-declare(strict_types=1);
-
 namespace App\Servicios;
 
-use App\Modelos\User;
-use App\Modelos\UserRepositoryInterface;
-use App\Servicios\JWTServiceInterface;
-use App\Servicios\TokenRepositoryInterface;
-use App\Servicios\PasswordHasherInterface;
+use App\Modelos\UserRepository;
+use App\Servicios\JWTService;
+use App\Servicios\PasswordHasher;
 use App\Exceptions\AuthenticationException;
 
 
-class AuthService implements AuthServiceInterface
+class AuthService 
 {
-    private UserRepositoryInterface $userRepo;
-    private JWTServiceInterface $jwtService;
-    private TokenRepositoryInterface $tokenRepo;
-    private PasswordHasherInterface $hasher;
+    private UserRepository $userRepo;
+    private JWTService $jwtService;
+    private PasswordHasher $passwordHasher;
     private int $accessTtl;   // segundos
-    private int $refreshTtl;  // segundos
 
     public function __construct(
-        UserRepositoryInterface $userRepo,
-        JWTServiceInterface $jwtService,
-        TokenRepositoryInterface $tokenRepo,
-        PasswordHasherInterface $hasher,
-        int $accessTtl = 3600,        // por defecto 1h
-        int $refreshTtl = 1209600     // por defecto 14 días
+        UserRepository $userRepo,
+        JWTService $jwtService,
+        PasswordHasher $hasher,
+        int $accessTtl = 3600,  // por defecto 1h
     ) {
         $this->userRepo  = $userRepo;
         $this->jwtService = $jwtService;
-        $this->tokenRepo = $tokenRepo;
-        $this->hasher = $hasher;
+        $this->passwordHasher = $passwordHasher;
         $this->accessTtl = $accessTtl;
-        $this->refreshTtl = $refreshTtl;
     }
 
     // Verifica las credenciales del usuario (login basico).
     public function verificarCredenciales(string $nombre, string $password): ?array
     {
         $usuario = $this->userRepo->findByNombre($nombre);
-        if (!$usuario) {
-            throw new AuthenticationException('Credenciales inválidas.');
-        }
 
-        if (!$this->hasher->verifyPassword($password, $usuario['password'])) {
+        if (!$usuario || !$this->passwordHasher->verifyPassword($password, $usuario['password'])) {
             throw new AuthenticationException('Credenciales inválidas.');
         }
 
@@ -52,10 +39,10 @@ class AuthService implements AuthServiceInterface
     }
 
     // Registra un nuevo usuario en la base de datos.
-    public function registrarUsuario(string $nombre, string $password): array
+    public function registrarUsuario(string $nombre, string $password, int $id_rol = 1): array
     {
         // Verificar si el usuario ya existe
-        $existingUser = $this->userRepository->findByNombre($nombre);
+        $existingUser = $this->userRepo->findByNombre($nombre);
         if ($existingUser) {
             throw new \Exception("El nombre de usuario ya está en uso");
         }
@@ -64,11 +51,12 @@ class AuthService implements AuthServiceInterface
         $hashedPassword = $this->passwordHasher->hash($password);
 
         // Guardar el usuario en la base de datos
-        $userId = $this->userRepository->create($nombre, $hashedPassword);
+        $userId = $this->userRepo->create($nombre, $hashedPassword, $id_rol);
 
         return [
             'id_usuario' => $userId,
-            'nombre' => $nombre
+            'nombre' => $nombre,
+            'id_rol' => $id_rol
         ];
     }
 
@@ -100,46 +88,11 @@ class AuthService implements AuthServiceInterface
     public function obtenerUsuarioDesdeToken(string $token): ?array
     {
         $claims = $this->validarToken($token);
-        if (!$claims || !isset($claims['sub'])) return null;
-
+        if (!$claims || !isset($claims['sub'])) {
+            return null;
+        }
         return $this->userRepo->findById($claims['sub']);
     }
 
 
-    // Genera un refresh token seguro
-    public function generarRefreshToken(array $usuario): string
-    {
-        $plain = bin2hex(random_bytes(64));
-        $hash = $this->hasher->hashToken($plain);
-
-        $this->tokenRepo->storeRefreshToken(
-            (int)$usuario['id_usuario'],
-            $hash,
-            (new \DateTimeImmutable())->modify("+{$this->refreshTtl} seconds")
-        );
-
-        return $plain;
-    }
-
-
-    public function generateRefreshToken(User $user, ?string $ip = null, ?string $userAgent = null): string
-    {
-        $plain = bin2hex(random_bytes(64));               // token seguro
-        $hash  = $this->hasher->hashToken($plain);        // hash para almacenamiento
-        $expiresAt = (new DateTimeImmutable())->modify("+{$this->refreshTtl} seconds");
-
-        // Persistir (implementación en TokenRepository)
-        $this->tokenRepo->storeRefreshToken((int)$user->getId(), $hash, $expiresAt, $ip, $userAgent);
-
-        return $plain;
-    }
-
-    // Valida un refresh token y devuelve el usuario asociado
-    public function validarRefreshToken(string $refreshToken): ?array
-    {
-        $registro = $this->tokenRepo->findByTokenHash($refreshToken);
-        if (!$registro) return null;
-
-        return $this->userRepo->findById($registro['user_id']);
-    }
 }
