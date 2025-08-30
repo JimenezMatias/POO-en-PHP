@@ -1,21 +1,20 @@
 <?php
 
 use Slim\App;
-use App\Controladores\AuthController;
+use App\Controladores\AuthControlador;
 use App\Middlewares\JWTMiddleware;
 use App\Modelos\UserRepository;
 use App\Servicios\AuthService;
 use App\Servicios\JWTService;
-use App\Servicios\PasswordHasher;
+use App\Config\Database; 
 
 return function(App $app) {
 
     // Instanciar servicios y controlador
-    $userRepo = new UserRepository();
+    
     $jwtService = new JWTService();
-    $passwordHasher = new PasswordHasher();
-    $authService = new AuthService($userRepo, $jwtService, $passwordHasher);
-    $authController = new AuthController($authService);
+    $authService = new AuthService(new UserRepository(new Database()->getConnection()), $jwtService);
+    $authController = new AuthControlador($authService);
 
     // Registro POST
     $app->post('/auth/register', [$authController, 'register']);
@@ -48,5 +47,5 @@ return function(App $app) {
         $html = ob_get_clean();
         $response->getBody()->write($html);
         return $response;
-    })->add(new JWTMiddleware());
+     })->add(new JWTMiddleware(new AuthService(new UserRepository(new Database()->getConnection()), new JWTService())));
 };

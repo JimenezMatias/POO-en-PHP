@@ -9,17 +9,18 @@
     <div class="form-container">
         <h2>Iniciar sesión</h2>
 
-        <form action="/auth/login" method="POST" class="formulario-login">
+        <form action="/auth/login" method="POST" class="formulario-login" id="login-form">
             <div class="form-group">
-                <input type="name" name="name" placeholder="Nombre" required>
+                <input type="text" name="username" placeholder="Nombre" required id="username-input">
             </div>
             <div class="form-group">
-                <input type="password" name="password" placeholder="Contraseña" required>
+                <input type="password" name="password" placeholder="Contraseña" required id="password-input">
             </div>
-            <button class="btn" type="submit">Ingresar</button>
+            <button class="btn" type="button" id="login-btn">Ingresar</button>
         </form>
 
         <a class="link" href="/register">¿No tenés cuenta? Registrate</a>
     </div>
 </body>
+<script src="assets/js/login.js"></script>
 </html>

@@ -4,7 +4,6 @@ namespace App\Config;
 use App\Modelos\UserRepository;
 use App\Servicios\AuthService;
 use App\Servicios\JWTService;
-use App\Servicios\PasswordHasher;
 
 class AppConfig
 {
@@ -42,7 +41,6 @@ class AppConfig
         return new AuthService(
             $this->getUserRepository(),
             $this->getJWTService(),
-            $this->getPasswordHasher()
         );
     }
 }

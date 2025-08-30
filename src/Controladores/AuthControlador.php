@@ -5,6 +5,8 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Servicios\AuthService;
 use App\Exceptions\AuthenticationException;
+use App\Config\Database;
+use App\Modelos\UserRepository;
 
 class AuthControlador
 {
@@ -67,27 +69,18 @@ class AuthControlador
             return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
         }
     }
-
-    
-
-
-
     
     // Login de usuario
     public function login(Request $request, Response $response): Response
     {
-        // 1. Capturar datos del formulario
-        $data = $request->getParsedBody();
+         try {
+            $username = $request->getAttribute("user");
 
-        $nombre = $data['nombre'] ?? '';
-        $password = $data['password'] ?? '';
-
-        try {
-            // Verificar credenciales
-            $usuario = $this->authService->verificarCredenciales($nombre, $password);
+            $repo = new UserRepository(new Database()->getConnection());
+            $user = $repo->findByNombre($username);
 
             // Generar token JWT
-            $token = $this->authService->generarToken($usuario);
+            $token = $this->authService->generarToken($user);
 
             // Respuesta JSON con token
             $payload = [
@@ -96,8 +89,11 @@ class AuthControlador
                 'token' => $token
             ];
 
-            $response->getBody()->write(json_encode($payload));
-            return $response->withHeader('Content-Type', 'application/json');
+        	$response->getBody()->write(json_encode($payload));
+
+            return $response
+            ->withHeader('Content-Type', 'application/json')
+            ->withStatus(200);
 
         } catch (AuthenticationException $e) {
             $payload = [
@@ -107,7 +103,5 @@ class AuthControlador
             $response->getBody()->write(json_encode($payload));
             return $response->withHeader('Content-Type', 'application/json')->withStatus(401);
         }
-        
-    }
-
+     }
 }

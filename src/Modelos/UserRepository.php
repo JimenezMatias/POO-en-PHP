@@ -1,13 +1,13 @@
 <?php
 
 namespace App\Modelos;
-
+use App\Config\Database;
 use PDO;
 
-class UserRepository implements UserRepositoryInterface
+class UserRepository 
 {
     private PDO $pdo;
-
+    private Database $database;
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;

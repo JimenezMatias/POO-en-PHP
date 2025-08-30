@@ -3,26 +3,21 @@ namespace App\Servicios;
 
 use App\Modelos\UserRepository;
 use App\Servicios\JWTService;
-use App\Servicios\PasswordHasher;
-use App\Exceptions\AuthenticationException;
-
+use Exception;
 
 class AuthService 
 {
     private UserRepository $userRepo;
     private JWTService $jwtService;
-    private PasswordHasher $passwordHasher;
     private int $accessTtl;   // segundos
 
     public function __construct(
         UserRepository $userRepo,
         JWTService $jwtService,
-        PasswordHasher $hasher,
         int $accessTtl = 3600,  // por defecto 1h
     ) {
         $this->userRepo  = $userRepo;
         $this->jwtService = $jwtService;
-        $this->passwordHasher = $passwordHasher;
         $this->accessTtl = $accessTtl;
     }
 
@@ -30,10 +25,10 @@ class AuthService
     public function verificarCredenciales(string $nombre, string $password): ?array
     {
         $usuario = $this->userRepo->findByNombre($nombre);
+        
+        if (!$usuario) throw new Exception('No existe el usuario');
 
-        if (!$usuario || !$this->passwordHasher->verifyPassword($password, $usuario['password'])) {
-            throw new AuthenticationException('Credenciales inválidas.');
-        }
+        if (!password_verify($password, $usuario['password'])) throw new Exception('Credenciales inválidas.');
 
         return $usuario;
     }
@@ -48,7 +43,7 @@ class AuthService
         }
 
         // Hashear la contraseña
-        $hashedPassword = $this->passwordHasher->hash($password);
+        $hashedPassword = password_hash($password);
 
         // Guardar el usuario en la base de datos
         $userId = $this->userRepo->create($nombre, $hashedPassword, $id_rol);
