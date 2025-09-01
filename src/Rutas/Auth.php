@@ -46,6 +46,20 @@ return function(App $app) {
         include __DIR__ . '/../Vistas/dashboard.php';
         $html = ob_get_clean();
         $response->getBody()->write($html);
+        return $response->withHeader('Content-Type', 'text/html');
+    });
+
+
+    //test conexion db
+    $app->get('/test-db', function($request, $response, $args) {
+        try {
+            $db = new \App\Config\Database();
+            $pdo = $db->getConnection();
+            $response->getBody()->write("Conexión exitosa a la base de datos.");
+        } catch (\Exception $e) {
+            $response->getBody()->write("Error: " . $e->getMessage());
+        }
+        
         return $response;
-     })->add(new JWTMiddleware(new AuthService(new UserRepository(new Database()->getConnection()), new JWTService())));
+    });
 };

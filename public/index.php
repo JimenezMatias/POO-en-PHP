@@ -51,9 +51,12 @@ $app->add(new HttpBasicAuthentication([
 $app->group('/protegido', function ($group) {
     // Aquí irían las rutas del dashboard (ejemplo: perfil, tareas, etc.)
     $group->get('', function ($request, $response) {
-        $response->getBody()->write(json_encode([
-            "message" => "Bienvenido al dashboard protegido con JWT"
-        ]));
+        $userClaims = $request->getAttribute('user');
+        $payload = [
+            "status" => "success",
+            "message" => "Bienvenido " . ($userClaims['nombre'] ?? "Usuario")
+        ];
+        $response->getBody()->write(json_encode($payload));
         return $response->withHeader('Content-Type', 'application/json');
     });
 })->add(new JWTMiddleware(new AuthService(new UserRepository(new Database()->getConnection()), new JWTService())));

@@ -121,6 +121,10 @@
     </div>
   </div>
 
+  <!-- Script del modal -->
   <script src="assets/js/javascript.js"></script>
+
+  <!-- Script para fetch y JWT del login al dashboard -->
+  <script src="assets/js/dashboard.js"></script>
 </body>
 </html>

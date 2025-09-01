@@ -43,7 +43,7 @@ class AuthService
         }
 
         // Hashear la contraseña
-        $hashedPassword = password_hash($password);
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         // Guardar el usuario en la base de datos
         $userId = $this->userRepo->create($nombre, $hashedPassword, $id_rol);
