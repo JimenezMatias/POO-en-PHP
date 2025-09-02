@@ -21,29 +21,47 @@ $app->addBodyParsingMiddleware();
 
 //Middlewares
 $app->add(new HttpBasicAuthentication([
-    "users" => [
-        "matiasJimenez" => "123456789"
-    ],
     "path" => ["/auth/login"],
     "secure" => false,
-    "before" => function ($request, $arguments) {
-        return $request
-        ->withAttribute("user", $arguments["user"]);
+
+    // Validación dinámica
+    "authenticator" => function ($arguments) {
+        $username = $arguments["user"];
+        $password = $arguments["password"];
+
+        // Repositorio de usuarios
+        $userRepository = new UserRepository((new Database())->getConnection());
+        $user = $userRepository->findByNombre($username);
+
+        // Verifica si existe y la contraseña es válida
+        if ($user && password_verify($password, $user['password'])) {
+            return true;
+        }
+        return false;
     },
+
+    // Antes de pasar al controlador
+    "before" => function ($request, $arguments) {
+        return $request->withAttribute("user", $arguments["user"]);
+    },
+
+    // Manejo de errores
     "error" => function ($response, $arguments) {
-        $data = [];
-        $data["status"] = "error";
-        $data["message"] = $arguments["message"];
+        $data = [
+            "status" => "error",
+            "message" => $arguments["message"]
+        ];
 
         $body = $response->getBody();
         $body->write(json_encode($data, JSON_UNESCAPED_SLASHES));
 
         return $response
-        ->withBody($body)
-        ->withHeader("Content-Type", "application/json")
-        ->withoutHeader("WWW-Authenticate");
+            ->withBody($body)
+            ->withHeader("Content-Type", "application/json")
+            ->withoutHeader("WWW-Authenticate");
     }
 ]));
+
 
 // rutas
 (require __DIR__ . '/../src/Rutas/Auth.php')($app);

@@ -24,9 +24,9 @@ class AuthControlador
         // Capturar datos del formulario
         $data = $request->getParsedBody();
 
-        $nombre = trim($data['nombre'] ?? '');
+        $nombre = trim($data['name'] ?? '');
         $password = $data['password'] ?? '';
-        $confirmPassword = $data['confirmPassword'] ?? '';
+        $confirmPassword = $data['confirm_password'] ?? '';
         $idRol = 1; // rol por defecto: invitado
 
         // Validaciones básicas
@@ -57,8 +57,9 @@ class AuthControlador
                 'message' => 'Usuario registrado correctamente',
                 'user' => $usuario
             ];
-            $response->getBody()->write(json_encode($payload));
-            return $response->withHeader('Content-Type', 'application/json');
+            return $response
+            ->withHeader("Location", "/login")
+            ->withStatus(302); // 302 = redirección temporal
 
         } catch (\Exception $e) {
             $payload = [
