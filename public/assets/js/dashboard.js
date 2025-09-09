@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     try {
         
-        const response  = await fetch("http://localhost/protegido", {
+        const response  = await fetch("/protegido", {
             method: 'GET',
             headers: {
                 "Authorization": `Bearer ${token}`,
@@ -24,15 +24,12 @@ document.addEventListener("DOMContentLoaded", async () => {
             window.location.href = "/login.php";
             return;
         }
-        const data = await response.json();
-        // inyectar info del usuario en el DOM
-        const userElement = document.getElementById("user-name");
-        if (userElement) userElement.textContent = data.message;    
+        const data = await response.json();   
 
     } catch(err) {
         console.error("Error al conectar con el backend:", err);
         window.location.href = "/login.php";
     }
 
-})
+});
 

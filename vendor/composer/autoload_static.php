@@ -36,6 +36,10 @@ class ComposerStaticInit92ebd4c0672e22ed6abfdf71812bdf28
             'Psr\\Container\\' => 14,
             'PhpOption\\' => 10,
         ),
+        'N' => 
+        array (
+            'Nyholm\\Psr7\\' => 12,
+        ),
         'G' => 
         array (
             'GrahamCampbell\\ResultType\\' => 26,
@@ -108,6 +112,10 @@ class ComposerStaticInit92ebd4c0672e22ed6abfdf71812bdf28
         'PhpOption\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
+        ),
+        'Nyholm\\Psr7\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nyholm/psr7/src',
         ),
         'GrahamCampbell\\ResultType\\' => 
         array (

@@ -17,7 +17,23 @@ $dotenv->load();
 
 //Carga app Slim
 $app = AppFactory::create();
-$app->addBodyParsingMiddleware(); 
+
+// --- MIDDLEWARE CORS GLOBAL ---
+$app->add(function ($request, $handler) {
+    $response = $handler->handle($request);
+    return $response
+        ->withHeader('Access-Control-Allow-Origin', 'http://localhost:5173')
+        ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+        ->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+});
+
+// --- RUTA OPTIONS PARA PREFLIGHT ---
+$app->options('/{routes:.+}', function ($request, $response) {
+    return $response;
+});
+
+$app->addBodyParsingMiddleware();
+
 
 //Middlewares
 $app->add(new HttpBasicAuthentication([
@@ -63,8 +79,15 @@ $app->add(new HttpBasicAuthentication([
 ]));
 
 
+
 // rutas
 (require __DIR__ . '/../src/Rutas/Auth.php')($app);
+// Ruta de prueba CORS
+$app->get('/api/test', function ($request, $response) {
+    $data = ['status' => 'ok', 'message' => 'CORS funcionando correctamente!'];
+    $response->getBody()->write(json_encode($data));
+    return $response->withHeader('Content-Type', 'application/json');
+});
 
 $app->group('/protegido', function ($group) {
     // Aquí irían las rutas del dashboard (ejemplo: perfil, tareas, etc.)

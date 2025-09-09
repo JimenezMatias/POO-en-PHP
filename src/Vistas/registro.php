@@ -23,6 +23,8 @@
             <button class="btn" type="submit">Registrarse</button>
         </form>
 
+        
+
         <a class="link" href="/login">¿Ya tienes cuenta? Iniciar sesión</a>
     
     </div>

@@ -50,16 +50,16 @@ return function(App $app) {
     });
 
 
-    //test conexion db
-    $app->get('/test-db', function($request, $response, $args) {
-        try {
-            $db = new \App\Config\Database();
-            $pdo = $db->getConnection();
-            $response->getBody()->write("Conexión exitosa a la base de datos.");
-        } catch (\Exception $e) {
-            $response->getBody()->write("Error: " . $e->getMessage());
-        }
-        
-        return $response;
+    //Formas De Pago GET
+    $app->get('/formasDePago', function($request, $response, $args) {
+        ob_start();
+        include __DIR__ . '/../Vistas/formasDePago.php';
+        $html = ob_get_clean();
+        $response->getBody()->write($html);
+        return $response->withHeader('Content-Type', 'text/html');
     });
+
+
+    
+
 };

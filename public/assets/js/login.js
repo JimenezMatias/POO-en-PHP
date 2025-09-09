@@ -28,6 +28,7 @@ loginBtn.addEventListener('click', async (e) => {
     // Guardar el token en el localStorage
     localStorage.setItem("jwt", data.token)
 
+     
     // Redirigir al usuario a la pagina principal
     window.location.href = "/dashboard";
 

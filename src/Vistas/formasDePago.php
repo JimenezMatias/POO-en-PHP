@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Dashboard</title>
+  <title>FormasDePago</title>
   <link rel="stylesheet" href="assets/css/styles.css">
   <style>
     body {
@@ -45,7 +45,7 @@
         <div class="dropdown">
           <button id="menu-toggle-archivos" class="menu-btn">Archivos</button>
           <div id="dropdown-menu-archivos" class="dropdown-menu">
-            <a href="/formasDePago">Formas de pago</a>
+            <a href="#">Nuevo</a>
             <a href="#">Abrir</a>
             <a href="#">Guardar</a>
           </div>
@@ -72,16 +72,19 @@
     </nav>
   </div>
   
-  <!-- Modal Formas De Pago -->
+  <!-- Modal Clientes -->
   <div id="modal-clientes" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
-      <h2>Gestion Formas De Pagos</h2>
+      <h2>Gestión de Clientes</h2>
 
       <!-- Formulario para registrar -->
       <form id="form-clientes" class="modal-form-container">
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="nombre" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
 
         <button type="submit">Registrar</button>
       </form>
