@@ -9,7 +9,7 @@
     <div class="form-container">
         <h2>Iniciar sesión</h2>
 
-        <form action="/auth/login" method="POST" class="formulario-login" id="login-form">
+        <form action="" method="POST" class="formulario-login" id="login-form">
             <div class="form-group">
                 <input type="text" name="username" placeholder="Nombre" required id="username-input">
             </div>

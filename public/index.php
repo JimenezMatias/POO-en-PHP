@@ -5,6 +5,7 @@ use Slim\Factory\AppFactory;
 use App\Config\AppConfig;
 use App\Controladores\AuthControlador;
 use App\Middlewares\JWTMiddleware;
+use App\Middlewares\RoleMiddleware;
 use Tuupola\Middleware\HttpbasicAuthentication;
 use App\Servicios\AuthService;
 use App\Servicios\JWTService;
@@ -39,6 +40,7 @@ $app->addBodyParsingMiddleware();
 $app->add(new HttpBasicAuthentication([
     "path" => ["/auth/login"],
     "secure" => false,
+    "ignore" => ["OPTIONS"],
 
     // Validación dinámica
     "authenticator" => function ($arguments) {
@@ -78,10 +80,10 @@ $app->add(new HttpBasicAuthentication([
     }
 ]));
 
-
-
 // rutas
 (require __DIR__ . '/../src/Rutas/Auth.php')($app);
+
+
 // Ruta de prueba CORS
 $app->get('/api/test', function ($request, $response) {
     $data = ['status' => 'ok', 'message' => 'CORS funcionando correctamente!'];
@@ -91,7 +93,7 @@ $app->get('/api/test', function ($request, $response) {
 
 $app->group('/protegido', function ($group) {
     // Aquí irían las rutas del dashboard (ejemplo: perfil, tareas, etc.)
-    $group->get('', function ($request, $response) {
+    $group->get('/dashboard', function ($request, $response) {
         $userClaims = $request->getAttribute('user');
         $payload = [
             "status" => "success",
@@ -100,7 +102,8 @@ $app->group('/protegido', function ($group) {
         $response->getBody()->write(json_encode($payload));
         return $response->withHeader('Content-Type', 'application/json');
     });
-})->add(new JWTMiddleware(new AuthService(new UserRepository(new Database()->getConnection()), new JWTService())));
+})->add(new RoleMiddleware([1]))  // Solo rol 1 permitido
+  ->add(new JWTMiddleware(new AuthService(new UserRepository(new Database()->getConnection()), new JWTService())));
 
 
 // Ejecutar app

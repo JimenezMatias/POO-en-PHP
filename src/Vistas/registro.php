@@ -10,7 +10,7 @@
     <div class="form-container">
         <h2>Registro</h2>
 
-        <form class="formulario-registro" id="formRegistro" action="/auth/register" method="POST" novalidate>
+        <form class="formulario-registro" id="formRegistro" action="" method="POST" novalidate>
             <div class="form-group">
                 <input type="text" name="name" id="name" placeholder="Nombre" required>
             </div>
