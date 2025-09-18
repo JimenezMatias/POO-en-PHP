@@ -3,6 +3,7 @@ import Login from "./paginas/Login";
 import Register from "./paginas/Register";
 import Dashboard from "./paginas/Dashboard";
 import ProtectedRoute from "./componentes/ProtectedRoute";
+import FormasDePago from "./paginas/FormasDePago";
 
 function App() {
   return (
@@ -12,11 +13,17 @@ function App() {
         <Route path="/register" element={<Register />} />
 
         {/* Rutas protegidas */}
-        <Route path="/dashboard" element={
-          <ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>
-        } />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="formasDePago" element={<FormasDePago />} />
+        </Route>
+
 
 
         {/* Default */}

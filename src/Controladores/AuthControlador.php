@@ -18,48 +18,37 @@ class AuthControlador
     }
 
     
-    // Registro de usuario
     public function register(Request $request, Response $response): Response
     {
-        // Capturar datos del formulario
         $data = $request->getParsedBody();
 
-        $nombre = trim($data['name'] ?? '');
-        $password = $data['password'] ?? '';
-        $confirmPassword = $data['confirm_password'] ?? '';
-        $idRol = 1; // rol por defecto: invitado
-
         // Validaciones básicas
-        if (empty($nombre) || empty($password) || empty($confirmPassword)) {
-            $payload = [
-                'status' => 'error',
-                'message' => 'Todos los campos son obligatorios'
-            ];
-            $response->getBody()->write(json_encode($payload));
+        if (!isset($data['nombre']) || !isset($data['password']) || !isset($data['confirmPassword'])) {
+            $response->getBody()->write(json_encode(['message' => 'Datos incompletos']));
             return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
         }
 
+        $nombre = $data['nombre'];
+        $password = $data['password'];
+        $confirmPassword = $data['confirmPassword'];
+
         if ($password !== $confirmPassword) {
-            $payload = [
-                'status' => 'error',
-                'message' => 'Las contraseñas no coinciden'
-            ];
-            $response->getBody()->write(json_encode($payload));
+            $response->getBody()->write(json_encode(['message' => 'Las contraseñas no coinciden']));
             return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
         }
 
         try {
             // Registrar usuario usando AuthService
-            $usuario = $this->authService->registrarUsuario($nombre, $password, $idRol);
+            $usuario = $this->authService->registrarUsuario($nombre, $password);
 
             $payload = [
                 'status' => 'success',
                 'message' => 'Usuario registrado correctamente',
                 'user' => $usuario
             ];
-            return $response
-            ->withHeader("Location", "/login")
-            ->withStatus(302); // 302 = redirección temporal
+
+            $response->getBody()->write(json_encode($payload));
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
 
         } catch (\Exception $e) {
             $payload = [
@@ -70,6 +59,7 @@ class AuthControlador
             return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
         }
     }
+
     
     // Login de usuario
     public function login(Request $request, Response $response): Response

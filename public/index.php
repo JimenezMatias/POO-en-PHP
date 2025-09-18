@@ -2,11 +2,10 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 use Slim\Factory\AppFactory;
-use App\Config\AppConfig;
 use App\Controladores\AuthControlador;
 use App\Middlewares\JWTMiddleware;
 use App\Middlewares\RoleMiddleware;
-use Tuupola\Middleware\HttpbasicAuthentication;
+use Tuupola\Middleware\HttpBasicAuthentication;
 use App\Servicios\AuthService;
 use App\Servicios\JWTService;
 use App\Modelos\UserRepository;
@@ -19,19 +18,16 @@ $dotenv->load();
 //Carga app Slim
 $app = AppFactory::create();
 
-// --- MIDDLEWARE CORS GLOBAL ---
-$app->add(function ($request, $handler) {
-    $response = $handler->handle($request);
-    return $response
-        ->withHeader('Access-Control-Allow-Origin', 'http://localhost:5173')
-        ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-        ->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-});
+// ==== CORS ====
+header("Access-Control-Allow-Origin: http://localhost:5173");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 
-// --- RUTA OPTIONS PARA PREFLIGHT ---
-$app->options('/{routes:.+}', function ($request, $response) {
-    return $response;
-});
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+// ==== FIN CORS ====
 
 $app->addBodyParsingMiddleware();
 
@@ -48,7 +44,7 @@ $app->add(new HttpBasicAuthentication([
         $password = $arguments["password"];
 
         // Repositorio de usuarios
-        $userRepository = new UserRepository((new Database())->getConnection());
+        $userRepository = new UserRepository(new Database()->getConnection());
         $user = $userRepository->findByNombre($username);
 
         // Verifica si existe y la contraseña es válida
@@ -82,14 +78,8 @@ $app->add(new HttpBasicAuthentication([
 
 // rutas
 (require __DIR__ . '/../src/Rutas/Auth.php')($app);
+(require __DIR__ . '/../src/Rutas/FormasDePago.php')($app);
 
-
-// Ruta de prueba CORS
-$app->get('/api/test', function ($request, $response) {
-    $data = ['status' => 'ok', 'message' => 'CORS funcionando correctamente!'];
-    $response->getBody()->write(json_encode($data));
-    return $response->withHeader('Content-Type', 'application/json');
-});
 
 $app->group('/protegido', function ($group) {
     // Aquí irían las rutas del dashboard (ejemplo: perfil, tareas, etc.)
@@ -106,6 +96,9 @@ $app->group('/protegido', function ($group) {
   ->add(new JWTMiddleware(new AuthService(new UserRepository(new Database()->getConnection()), new JWTService())));
 
 
+
+$app->addRoutingMiddleware();
+$errorMiddleware = $app->addErrorMiddleware(true, true, true);  
 // Ejecutar app
 $app->run();
 
