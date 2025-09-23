@@ -33,5 +33,4 @@ return function(App $app) {
 
 };
 
-
 ?>

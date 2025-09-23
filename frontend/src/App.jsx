@@ -4,6 +4,8 @@ import Register from "./paginas/Register";
 import Dashboard from "./paginas/Dashboard";
 import ProtectedRoute from "./componentes/ProtectedRoute";
 import FormasDePago from "./paginas/FormasDePago";
+import Localidades from "./paginas/Localidades";
+import Rubros from "./paginas/Rubros";
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
           }
         >
           <Route path="formasDePago" element={<FormasDePago />} />
+          <Route path="localidades" element={<Localidades />} />
+          <Route path="rubros" element={<Rubros />} />
         </Route>
 
 
