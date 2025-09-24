@@ -82,6 +82,9 @@ $app->add(new HttpBasicAuthentication([
 (require __DIR__ . '/../src/Rutas/Localidades.php')($app);
 (require __DIR__ . '/../src/Rutas/Provincias.php')($app);
 (require __DIR__ . '/../src/Rutas/Rubros.php')($app);
+(require __DIR__ . '/../src/Rutas/Proveedores.php')($app);
+(require __DIR__ . '/../src/Rutas/Ubicaciones.php')($app);
+(require __DIR__ . '/../src/Rutas/Articulos.php')($app);
 
 $app->group('/protegido', function ($group) {
     // Aquí irían las rutas del dashboard (ejemplo: perfil, tareas, etc.)
