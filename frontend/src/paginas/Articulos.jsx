@@ -20,17 +20,73 @@ const formatNumber = (value, decimals = 2) => {
 
 // Columnas con ancho fijo
 const columns = [
-  { field: 'codigo', headerName: 'Código', width: 150 },
-  { field: 'detalle', headerName: 'Detalle',  width: 150 },
-  { field: 'costo',
+  { field: 'codigo', headerName: 'Código', width: 70 },
+  { field: 'detalle', headerName: 'Detalle', width: 150 },
+
+  {
+    field: 'costo',
     headerName: 'Costo',
-    width: 120, valueFormatter: (params) => formatNumber(params.value) },
-  { field: 'porcen', headerName: '%',  width: 100, valueFormatter: (params) => formatNumber(params.value) },
-  { field: 'precio_venta', headerName: 'Precio Venta',  width: 120, valueFormatter: (params) => formatNumber(params.value) },
+    width: 70,
+    valueGetter: (params) => {
+      const val = params.row?.costo;
+      console.log('Getter costo:', val);
+      return val ?? 0;
+    },
+    valueFormatter: (params) => {
+      console.log('Formatter costo:', params.value);
+      return formatNumber(params.value, 2);
+    },
+    renderCell: (params) => {
+      const formatted = formatNumber(params.row?.costo ?? 0, 2);
+      console.log('RenderCell costo:', formatted);
+      return <strong>{formatted}</strong>;
+    }
+  },
+
+  {
+    field: 'porcen',
+    headerName: 'Porcentaje',
+    width: 100,
+    valueGetter: (params) => {
+      const val = params.row?.porcen;
+      console.log('Getter porcen:', val);
+      return val ?? 0;
+    },
+    valueFormatter: (params) => {
+      console.log('Formatter porcen:', params.value);
+      return formatNumber(params.value, 2);
+    },
+    renderCell: (params) => {
+      const formatted = formatNumber(params.row?.porcen ?? 0, 2);
+      console.log('RenderCell porcen:', formatted);
+      return <strong>{formatted}</strong>;
+    }
+  },
+
+  {
+    field: 'precio_venta',
+    headerName: 'Precio Venta',
+    width: 100,
+    valueGetter: (params) => {
+      const val = params.row?.precio_venta;
+      console.log('Getter precio_venta:', val);
+      return val ?? 0;
+    },
+    valueFormatter: (params) => {
+      console.log('Formatter precio_venta:', params.value);
+      return formatNumber(params.value, 2);
+    },
+    renderCell: (params) => {
+      const formatted = formatNumber(params.row?.precio_venta ?? 0, 2);
+      console.log('RenderCell precio_venta:', formatted);
+      return <strong>{formatted}</strong>;
+    }
+  },
+
   {
     field: 'stock',
     headerName: 'Stock',
-    width: 120,
+    width: 90,
     valueGetter: (params) => {
       const val = params.row?.stock;
       console.log('Getter stock:', val);
@@ -45,16 +101,54 @@ const columns = [
       console.log('RenderCell stock:', formatted);
       return <strong>{formatted}</strong>;
     }
-
   },
-  { field: 'id_ubicacion', headerName: 'Ubicación',  width: 120 },
-  { field: 'id_proveedor', headerName: 'Proveedor',  width: 120 },
-  { field: 'id_rubro', headerName: 'Rubro',  width: 120 },
-  { field: 'codigo_uni_medida', headerName: 'Unidad Medida',  width: 140 },
-  { field: 'id_tasa_iva', headerName: 'Tasa IVA',  width: 120 },
-  { field: 'punto_pedido', headerName: 'Punto Pedido',  width: 120, valueFormatter: (params) => formatNumber(params.value) },
-  { field: 'bonif', headerName: 'Bonificación',  width: 120, valueFormatter: (params) => formatNumber(params.value) },
-  { field: 'obsv', headerName: 'Observaciones',  width: 170 },
+
+  { field: 'id_ubicacion', headerName: 'Ubicación', width: 90 },
+  { field: 'id_proveedor', headerName: 'Proveedor', width: 90 },
+  { field: 'id_rubro', headerName: 'Rubro', width: 70 },
+  { field: 'codigo_uni_medida', headerName: 'Unidad Medida', width: 120 },
+  { field: 'id_tasa_iva', headerName: 'Tasa IVA', width: 90 },
+
+  {
+    field: 'punto_pedido',
+    headerName: 'Punto Pedido',
+    width: 110,
+    valueGetter: (params) => {
+      const val = params.row?.punto_pedido;
+      console.log('Getter punto_pedido:', val);
+      return val ?? 0;
+    },
+    valueFormatter: (params) => {
+      console.log('Formatter punto_pedido:', params.value);
+      return formatNumber(params.value, 0);
+    },
+    renderCell: (params) => {
+      const formatted = formatNumber(params.row?.punto_pedido ?? 0, 2);
+      console.log('RenderCell punto_pedido:', formatted);
+      return <strong>{formatted}</strong>;
+    }
+  },
+
+  {
+    field: 'bonif',
+    headerName: 'Bonificación',
+    width: 100,
+    valueGetter: (params) => {
+      const val = params.row?.bonif;
+      console.log('Getter bonif:', val);
+      return val ?? 0;
+    },
+    valueFormatter: (params) => {
+      console.log('Formatter bonif:', params.value);
+      return formatNumber(params.value, 2);
+    },
+    renderCell: (params) => {
+      const formatted = formatNumber(params.row?.bonif ?? 0, 2);
+      console.log('RenderCell bonif:', formatted);
+      return <strong>{formatted}</strong>;
+    }
+  },
+  { field: 'obsv', headerName: 'Observaciones', width: 150 }
 ];
 
 export default function Articulos() {
