@@ -10,6 +10,8 @@ import Proveedores from "./paginas/Proveedores";
 import Ubicaciones from "./paginas/Ubicaciones";
 import Articulos from "./paginas/Articulos";
 import { ArticulosProvider } from "./context/ArticulosContext";
+import Usuarios from "./paginas/Usuarios";
+import Ventas from "./paginas/Ventas";
 
 function App() {
   return (
@@ -34,6 +36,8 @@ function App() {
             <Route path="rubros" element={<Rubros />} />
             <Route path="ubicaciones" element={<Ubicaciones />} />
             <Route path="articulos" element={<Articulos />} />
+            <Route path="usuarios" element={<Usuarios />} />
+            <Route path="ventas" element={<Ventas />} />
           </Route>
 
 
