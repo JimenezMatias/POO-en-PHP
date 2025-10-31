@@ -57,4 +57,56 @@ class ArticulosRepository {
         $stmt = $this->pdo->prepare("DELETE FROM productos WHERE codigo = :codigo");
         return $stmt->execute(['codigo' => $codigo]);
     }
+
+    // Obtener un producto por código (para Stock)
+    public function obtenerPorCodigo(string $codigo): ?array {
+        $stmt = $this->pdo->prepare("
+            SELECT 
+                p.codigo,
+                p.detalle,
+                p.stock,
+                p.precio_venta,
+                p.costo,
+                p.porcen,
+                p.id_ubicacion,
+                p.id_proveedor,
+                p.id_rubro,
+                p.codigo_uni_medida,
+                p.id_tasa_iva,
+                p.punto_pedido,
+                p.bonif,
+                p.obsv
+            FROM productos p
+            WHERE p.codigo = :codigo
+        ");
+        $stmt->execute(['codigo' => $codigo]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ?: null;
+    }
+
+    // Sumar stock (permite positivos y negativos)
+    public function sumarStock(string $codigo, float $cantidad): bool {
+        $stmt = $this->pdo->prepare("
+            UPDATE productos 
+            SET stock = stock + :cantidad 
+            WHERE codigo = :codigo
+        ");
+        return $stmt->execute([
+            'codigo' => $codigo,
+            'cantidad' => $cantidad
+        ]);
+    }
+
+    // Actualizar precio de venta
+    public function actualizarPrecio(string $codigo, float $precio): bool {
+        $stmt = $this->pdo->prepare("
+            UPDATE productos 
+            SET precio_venta = :precio 
+            WHERE codigo = :codigo
+        ");
+        return $stmt->execute([
+            'codigo' => $codigo,
+            'precio' => $precio
+        ]);
+    }
 }

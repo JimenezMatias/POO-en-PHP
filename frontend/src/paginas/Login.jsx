@@ -1,16 +1,21 @@
 import { useState } from "react";
 import { login } from "../servicios/authService";
+import { useProductos } from "../context/ProductosContext";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [nombre, setNombre] = useState("");
   const [password, setPassword] = useState("");
+  const { fetchProductos } = useProductos();
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
       const data = await login(nombre, password);
       if (data.token) {
         alert("Login correcto!");
-        window.location.href = "/dashboard"; // redirigir
+        await fetchProductos(); // precarga
+        navigate("/dashboard"); // navegación sin recarga
       } else {
         alert("Credenciales inválidas");
       }

@@ -43,5 +43,74 @@ class ArticulosService {
         }
         return $this->repository->eliminar($codigo);
     }
+
+    // Obtener un producto por código
+    public function obtenerPorCodigo(string $codigo): array {
+        if (trim($codigo) === '') {
+            throw new InvalidArgumentException("El código del producto es obligatorio");
+        }
+        
+        $producto = $this->repository->obtenerPorCodigo($codigo);
+        
+        if (!$producto) {
+            throw new InvalidArgumentException("Producto no encontrado");
+        }
+        
+        return $producto;
+    }
+
+    // Sumar stock (permite positivos y negativos)
+    public function sumarStock(string $codigo, float $cantidad): array {
+        if (trim($codigo) === '') {
+            throw new InvalidArgumentException("El código del producto es obligatorio");
+        }
+        
+        if ($cantidad == 0) {
+            throw new InvalidArgumentException("La cantidad no puede ser 0");
+        }
+        
+        // Verificar que el producto existe
+        $producto = $this->repository->obtenerPorCodigo($codigo);
+        if (!$producto) {
+            throw new InvalidArgumentException("Producto no encontrado");
+        }
+        
+        // Actualizar stock
+        $resultado = $this->repository->sumarStock($codigo, $cantidad);
+        
+        if (!$resultado) {
+            throw new InvalidArgumentException("Error al actualizar el stock");
+        }
+        
+        // Devolver producto actualizado
+        return $this->repository->obtenerPorCodigo($codigo);
+    }
+
+    // Actualizar precio de venta
+    public function actualizarPrecio(string $codigo, float $precio): array {
+        if (trim($codigo) === '') {
+            throw new InvalidArgumentException("El código del producto es obligatorio");
+        }
+        
+        if ($precio <= 0) {
+            throw new InvalidArgumentException("El precio debe ser mayor a 0");
+        }
+        
+        // Verificar que el producto existe
+        $producto = $this->repository->obtenerPorCodigo($codigo);
+        if (!$producto) {
+            throw new InvalidArgumentException("Producto no encontrado");
+        }
+        
+        // Actualizar precio
+        $resultado = $this->repository->actualizarPrecio($codigo, $precio);
+        
+        if (!$resultado) {
+            throw new InvalidArgumentException("Error al actualizar el precio");
+        }
+        
+        // Devolver producto actualizado
+        return $this->repository->obtenerPorCodigo($codigo);
+    }
 }
 ?>

@@ -9,13 +9,18 @@ import Rubros from "./paginas/Rubros";
 import Proveedores from "./paginas/Proveedores";
 import Ubicaciones from "./paginas/Ubicaciones";
 import Articulos from "./paginas/Articulos";
-import { ArticulosProvider } from "./context/ArticulosContext";
 import Usuarios from "./paginas/Usuarios";
 import Ventas from "./paginas/Ventas";
+import Clientes from "./paginas/Clientes";
+import Stock from "./paginas/Stock";
+import ConsultaVentas from "./paginas/ConsultaVentas";
+
+// Usamos el nuevo contexto de productos
+import { ProductosProvider } from "./context/ProductosContext";
 
 function App() {
   return (
-    <ArticulosProvider>
+    <ProductosProvider>
       <Router>
         <Routes>
           <Route path="/login" element={<Login />} />
@@ -38,17 +43,17 @@ function App() {
             <Route path="articulos" element={<Articulos />} />
             <Route path="usuarios" element={<Usuarios />} />
             <Route path="ventas" element={<Ventas />} />
+            <Route path="clientes" element={<Clientes />} />
+            <Route path="stock" element={<Stock />} />
+            <Route path="consulta-ventas" element={<ConsultaVentas />} />
           </Route>
-
-
 
           {/* Default */}
           <Route path="/" element={<Login />} />
         </Routes>
       </Router>
-    </ArticulosProvider>
+    </ProductosProvider>
   );
 }
 
 export default App;
-

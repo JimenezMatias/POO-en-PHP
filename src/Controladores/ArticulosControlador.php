@@ -65,4 +65,70 @@ class ArticulosControlador {
             return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
         }
     }
+
+    // Obtener un producto por código (para Stock)
+    public function obtenerPorCodigo(Request $request, Response $response, array $args): Response {
+        $codigo = $args['codigo'];
+
+        try {
+            $producto = $this->service->obtenerPorCodigo($codigo);
+            $response->getBody()->write(json_encode($producto));
+            return $response->withHeader('Content-Type', 'application/json');
+        } catch (InvalidArgumentException $e) {
+            $response->getBody()->write(json_encode(['error' => $e->getMessage()]));
+            return $response->withStatus(404)->withHeader('Content-Type', 'application/json');
+        }
+    }
+
+    // Sumar stock (permite positivos y negativos)
+    public function sumarStock(Request $request, Response $response, array $args): Response {
+        $codigo = $args['codigo'];
+        $datos = (array)$request->getParsedBody();
+
+        try {
+            if (!isset($datos['cantidad'])) {
+                throw new InvalidArgumentException("La cantidad es obligatoria");
+            }
+
+            $cantidad = (float)$datos['cantidad'];
+            $productoActualizado = $this->service->sumarStock($codigo, $cantidad);
+            
+            $mensaje = $cantidad > 0 
+                ? "Stock actualizado correctamente: +{$cantidad} unidades" 
+                : "Stock actualizado correctamente: {$cantidad} unidades";
+            
+            $response->getBody()->write(json_encode([
+                'mensaje' => $mensaje,
+                'producto' => $productoActualizado
+            ]));
+            return $response->withHeader('Content-Type', 'application/json');
+        } catch (InvalidArgumentException $e) {
+            $response->getBody()->write(json_encode(['error' => $e->getMessage()]));
+            return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
+        }
+    }
+
+    // Actualizar precio de venta
+    public function actualizarPrecio(Request $request, Response $response, array $args): Response {
+        $codigo = $args['codigo'];
+        $datos = (array)$request->getParsedBody();
+
+        try {
+            if (!isset($datos['precio'])) {
+                throw new InvalidArgumentException("El precio es obligatorio");
+            }
+
+            $precio = (float)$datos['precio'];
+            $productoActualizado = $this->service->actualizarPrecio($codigo, $precio);
+            
+            $response->getBody()->write(json_encode([
+                'mensaje' => "Precio actualizado correctamente: $" . number_format($precio, 2),
+                'producto' => $productoActualizado
+            ]));
+            return $response->withHeader('Content-Type', 'application/json');
+        } catch (InvalidArgumentException $e) {
+            $response->getBody()->write(json_encode(['error' => $e->getMessage()]));
+            return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
+        }
+    }
 }

@@ -19,9 +19,12 @@ return function(App $app) {
     $jwtMiddleware = new JWTMiddleware($authService);
 
     $app->group('/articulos', function($group) use ($controller) {
-        $group->get('', [$controller, 'listar']);                     // GET /articulos
-        $group->post('', [$controller, 'crear']);                     // POST /articulos
-        $group->put('/{codigo}', [$controller, 'editar']);           // PUT /articulos/{codigo}
-        $group->delete('/{codigo}', [$controller, 'eliminar']);      // DELETE /articulos/{codigo}
+        $group->get('', [$controller, 'listar']);                            // GET /articulos
+        $group->post('', [$controller, 'crear']);                            // POST /articulos
+        $group->get('/{codigo}', [$controller, 'obtenerPorCodigo']);         // GET /articulos/{codigo}
+        $group->put('/{codigo}', [$controller, 'editar']);                   // PUT /articulos/{codigo}
+        $group->delete('/{codigo}', [$controller, 'eliminar']);              // DELETE /articulos/{codigo}
+        $group->patch('/{codigo}/stock', [$controller, 'sumarStock']);       // PATCH /articulos/{codigo}/stock
+        $group->patch('/{codigo}/precio', [$controller, 'actualizarPrecio']); // PATCH /articulos/{codigo}/precio
     })->add($jwtMiddleware);
 };

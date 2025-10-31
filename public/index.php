@@ -21,7 +21,7 @@ $app = AppFactory::create();
 // ==== CORS ====
 header("Access-Control-Allow-Origin: http://localhost:5173");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS");
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 // ==== FIN CORS ====
 
 $app->addBodyParsingMiddleware();
-
+$app->addRoutingMiddleware();
 
 //Middlewares
 $app->add(new HttpBasicAuthentication([
@@ -85,6 +85,14 @@ $app->add(new HttpBasicAuthentication([
 (require __DIR__ . '/../src/Rutas/Proveedores.php')($app);
 (require __DIR__ . '/../src/Rutas/Ubicaciones.php')($app);
 (require __DIR__ . '/../src/Rutas/Articulos.php')($app);
+(require __DIR__ . '/../src/Rutas/UnidadesMedidas.php')($app);
+(require __DIR__ . '/../src/Rutas/TasasIva.php')($app);
+(require __DIR__ . '/../src/Rutas/Ventas.php')($app);
+(require __DIR__ . '/../src/Rutas/Clientes.php')($app);
+(require __DIR__ . '/../src/Rutas/RespIva.php')($app);
+(require __DIR__ . '/../src/Rutas/TiposDoc.php')($app);
+(require __DIR__ . '/../src/Rutas/TiposDocAfip.php')($app);
+(require __DIR__ . '/../src/Rutas/ConsultaVentas.php')($app);
 
 $app->group('/protegido', function ($group) {
     // Aquí irían las rutas del dashboard (ejemplo: perfil, tareas, etc.)
@@ -102,7 +110,6 @@ $app->group('/protegido', function ($group) {
 
 
 
-$app->addRoutingMiddleware();
 $errorMiddleware = $app->addErrorMiddleware(true, true, true);  
 // Ejecutar app
 $app->run();
