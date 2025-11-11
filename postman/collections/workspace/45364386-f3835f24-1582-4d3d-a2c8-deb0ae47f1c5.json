@@ -1,0 +1,1688 @@
+{
+	"info": {
+		"_postman_id": "45364386-f3835f24-1582-4d3d-a2c8-deb0ae47f1c5",
+		"name": "PuntoDeVenta",
+		"description": "# 🚀 Get started here\n\nThis template guides you through CRUD operations (GET, POST, PUT, DELETE), variables, and tests.\n\n## 🔖 **How to use this template**\n\n#### **Step 1: Send requests**\n\nRESTful APIs allow you to perform CRUD operations using the POST, GET, PUT, and DELETE HTTP methods.\n\nThis collection contains each of these [request](https://learning.postman.com/docs/sending-requests/requests/) types. Open each request and click \"Send\" to see what happens.\n\n#### **Step 2: View responses**\n\nObserve the response tab for status code (200 OK), response time, and size.\n\n#### **Step 3: Send new Body data**\n\nUpdate or add new data in \"Body\" in the POST request. Typically, Body data is also used in PUT request.\n\n```\n{\n    \"name\": \"Add your name in the body\"\n}\n\n ```\n\n#### **Step 4: Update the variable**\n\nVariables enable you to store and reuse values in Postman. We have created a [variable](https://learning.postman.com/docs/sending-requests/variables/) called `base_url` with the sample request [https://postman-api-learner.glitch.me](https://postman-api-learner.glitch.me). Replace it with your API endpoint to customize this collection.\n\n#### **Step 5: Add tests in the \"Scripts\" tab**\n\nAdding tests to your requests can help you confirm that your API is working as expected. You can write test scripts in JavaScript and view the output in the \"Test Results\" tab.\n\n<img src=\"https://content.pstmn.io/fa30ea0a-373d-4545-a668-e7b283cca343/aW1hZ2UucG5n\" alt=\"\" height=\"1530\" width=\"2162\">\n\n## 💪 Pro tips\n\n- Use folders to group related requests and organize the collection.\n    \n- Add more [scripts](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/) to verify if the API works as expected and execute workflows.\n    \n\n## 💡Related templates\n\n[API testing basics](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9a37a28-055b-49cd-8c7e-97494a21eb54&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[API documentation](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9c28f47-1253-44af-a2f3-20dce4da1f18&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[Authorization methods](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=31a9a6ed-4cdf-4ced-984c-d12c9aec1c27&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Articulos",
+			"item": [
+				{
+					"name": "Get data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "83286ddc-1a42-4b84-b4a5-12e8d3d80549",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "45364386-e83fa49b-11b1-4c34-8cf8-863baab07839",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/articulos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"articulos"
+							]
+						},
+						"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+					},
+					"response": []
+				},
+				{
+					"name": "Post data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0e08bfa4-a4a0-4d46-9a48-263b60d71b24",
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "45364386-6e25dced-1d91-4400-bc5c-0d3404488c09",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Add your name in the body\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/articulos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"articulos"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "editarArticulo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "70715861-bd2e-42ed-9547-aa7433bd6373",
+								"exec": [
+									"pm.test(\"Successful PUT request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "45364386-40ff4502-844a-4b9e-a995-1fab55d6e9b4",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Add your name in the body\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/articulos/{{codArticulo}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"articulos",
+								"{{codArticulo}}"
+							]
+						},
+						"description": "This is a PUT request and it is used to overwrite an existing piece of data. For instance, after you create an entity with a POST request, you may want to modify that later. You can do that using a PUT request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful PUT request typically returns a `200 OK`, `201 Created`, or `204 No Content` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "653c66c6-9544-464a-a34a-e24367db7112",
+								"exec": [
+									"pm.test(\"Successful DELETE request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 202, 204]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "45364386-ae9b4e29-2456-4eab-967a-d4f02dd2e9a7",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/articulos/{{codArticulo}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"articulos",
+								"{{codArticulo}}"
+							]
+						},
+						"description": "This is a DELETE request, and it is used to delete data that was previously created via a POST request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful DELETE request typically returns a `200 OK`, `202 Accepted`, or `204 No Content` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerProducto",
+					"id": "45364386-c0cddad1-bb50-49d8-8b4d-6b5fb9836015",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/articulos/{{codArticulo}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"articulos",
+								"{{codArticulo}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SumarStock",
+					"id": "45364386-6fa485d7-bb4e-4b80-9743-844cec599c6d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/articulos/{{codArticulo}}/stock",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"articulos",
+								"{{codArticulo}}",
+								"stock"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Precio",
+					"id": "45364386-0d6a3583-123c-4ec4-8625-a68fe6b6100c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/articulos/{{codArticulo}}/precio",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"articulos",
+								"{{codArticulo}}",
+								"precio"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "45364386-c4956b36-41e1-499c-9d8d-fc4a8287c116"
+		},
+		{
+			"name": "Rubros",
+			"item": [
+				{
+					"name": "Get data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6995465a-dea2-41a3-b77f-eba12df855c3",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "45364386-49baf206-09bc-42fc-9eab-3bdc40c3755e",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/rubros",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"rubros"
+							]
+						},
+						"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+					},
+					"response": []
+				},
+				{
+					"name": "Post data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a1b9a6cd-8cc9-4bb4-8255-b5ab53460754",
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "45364386-07286604-5c88-41c5-8c8c-1baaa96f7a65",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Add your name in the body\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/rubros",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"rubros"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "Update data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "176dbde8-782c-4b6d-9d8f-516a9bfe1cde",
+								"exec": [
+									"pm.test(\"Successful PUT request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "45364386-7d21374d-810e-4805-9145-dd39d6ddb93e",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Add your name in the body\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/rubros/id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"rubros",
+								"id"
+							]
+						},
+						"description": "This is a PUT request and it is used to overwrite an existing piece of data. For instance, after you create an entity with a POST request, you may want to modify that later. You can do that using a PUT request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful PUT request typically returns a `200 OK`, `201 Created`, or `204 No Content` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0200087e-4fca-4b8f-a4e5-fb4c1236d5d0",
+								"exec": [
+									"pm.test(\"Successful DELETE request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 202, 204]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "45364386-db80e561-037a-4808-a868-1756433a553a",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/rubros/id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"rubros",
+								"id"
+							]
+						},
+						"description": "This is a DELETE request, and it is used to delete data that was previously created via a POST request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful DELETE request typically returns a `200 OK`, `202 Accepted`, or `204 No Content` response code."
+					},
+					"response": []
+				}
+			],
+			"id": "45364386-4f9643ff-84b3-4e72-bbd7-68339a7d78f4"
+		},
+		{
+			"name": "Ubicaciones",
+			"item": [
+				{
+					"name": "Get data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "060502aa-6ae7-48a1-bf20-53eb12bf518c",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "45364386-1313b926-0c60-4aed-a55a-a0733c0d706a",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/ubicaciones",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"ubicaciones"
+							]
+						},
+						"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+					},
+					"response": []
+				},
+				{
+					"name": "Post data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9e1a27cc-7e32-432b-8721-6eeabb59cf9e",
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "45364386-fe73f307-ae14-413a-9125-0ced525bb019",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Add your name in the body\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/ubicaciones",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"ubicaciones"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1dee47a7-0f23-40ee-a661-2932eb014964",
+								"exec": [
+									"pm.test(\"Successful DELETE request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 202, 204]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "45364386-3f1a64a1-e951-42c0-bb1c-9808095c3a6c",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/ubicaciones/id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"ubicaciones",
+								"id"
+							]
+						},
+						"description": "This is a DELETE request, and it is used to delete data that was previously created via a POST request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful DELETE request typically returns a `200 OK`, `202 Accepted`, or `204 No Content` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "Update data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "898710ea-e299-41ac-b326-2453e420328c",
+								"exec": [
+									"pm.test(\"Successful PUT request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "45364386-78130ed6-4031-4ff7-a13a-786e3a087d52",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Add your name in the body\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/ubicaciones/id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"ubicaciones",
+								"id"
+							]
+						},
+						"description": "This is a PUT request and it is used to overwrite an existing piece of data. For instance, after you create an entity with a POST request, you may want to modify that later. You can do that using a PUT request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful PUT request typically returns a `200 OK`, `201 Created`, or `204 No Content` response code."
+					},
+					"response": []
+				}
+			],
+			"id": "45364386-994779a3-4ed3-4e18-982e-73389f25c1f2"
+		},
+		{
+			"name": "Provincias",
+			"item": [
+				{
+					"name": "Get data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e036f8a0-e0cb-4192-8df6-8de7d47ad988",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "45364386-e3881c22-d71c-4c61-b33f-0c80cbfa65a5",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/provincias",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"provincias"
+							]
+						},
+						"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+					},
+					"response": []
+				}
+			],
+			"id": "45364386-6d00d9e6-10ea-48fd-b69f-8a47dc85b8cd"
+		},
+		{
+			"name": "Proveedores",
+			"item": [
+				{
+					"name": "DELETE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4e1f9603-95ae-4156-9064-d81e86833b0b",
+								"exec": [
+									"pm.test(\"Successful DELETE request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 202, 204]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "45364386-bc40515a-328a-4f1b-819c-8a7ded0dfd89",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/proveedores/id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"proveedores",
+								"id"
+							]
+						},
+						"description": "This is a DELETE request, and it is used to delete data that was previously created via a POST request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful DELETE request typically returns a `200 OK`, `202 Accepted`, or `204 No Content` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "POST",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "89744770-011d-4d1e-9bd6-aa37410a072c",
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "45364386-bb1b1dca-9f5f-4db0-8cca-2f964ecedc30",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Add your name in the body\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/proveedores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"proveedores"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "GET",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4a65a368-eea8-4cad-9c3a-8f3e489e3c92",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "45364386-f071dc25-09bc-4ca0-b597-bf48ea8b0abe",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/proveedores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"proveedores"
+							]
+						},
+						"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+					},
+					"response": []
+				},
+				{
+					"name": "PUT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c51e41e1-a0e4-44a4-a745-d6dcdb7a19a6",
+								"exec": [
+									"pm.test(\"Successful PUT request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "45364386-c19a2fa5-11d9-496e-a897-b43bb145f0e0",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Add your name in the body\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/proveedores/id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"proveedores",
+								"id"
+							]
+						},
+						"description": "This is a PUT request and it is used to overwrite an existing piece of data. For instance, after you create an entity with a POST request, you may want to modify that later. You can do that using a PUT request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful PUT request typically returns a `200 OK`, `201 Created`, or `204 No Content` response code."
+					},
+					"response": []
+				}
+			],
+			"id": "45364386-d1738637-dde2-4b75-8099-9a516ff448e9"
+		},
+		{
+			"name": "Localidades",
+			"item": [
+				{
+					"name": "LOCALIDADES-DELETE",
+					"id": "45364386-9d409657-b097-40f2-ba23-813fe474716f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/localidades/id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"localidades",
+								"id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LOCALIDADES-PUT",
+					"id": "45364386-8b870550-4f44-4a6b-bed1-09ecf79f5f75",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/localidades/id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"localidades",
+								"id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LOCALIDADES-POST",
+					"id": "45364386-3795ce0e-dd48-429c-ba0b-568cea2faf84",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/localidades",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"localidades"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LOCALIDADES-GET",
+					"id": "45364386-bca5c345-5fd7-4f55-b5e9-2d9991f6be40",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/localidades",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"localidades"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "45364386-e57d58f0-0ca9-4146-97b0-dd185b30f20b"
+		},
+		{
+			"name": "Inicio de sesion",
+			"item": [
+				{
+					"name": "Register-POST",
+					"id": "45364386-4bc29046-167d-4c74-89fa-fa93e72c1a9b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login-POST",
+					"id": "45364386-7a57f303-e106-4c24-82e2-3424bdbaebaa",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login-GET",
+					"id": "45364386-9f99f63e-0c2c-4582-baed-1f671d7cfad8",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "inherit"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register-GET",
+					"id": "45364386-c4f6b52c-b791-40ee-969f-33fddf154723",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "45364386-2ce8b06f-6e0f-43f6-8f47-afa3b772c14e"
+		},
+		{
+			"name": "Formas de pagos",
+			"item": [
+				{
+					"name": "FP-DELETE",
+					"id": "45364386-88895436-6d0c-4ab2-adb9-1ca613f4a749",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/formas-de-pago/id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"formas-de-pago",
+								"id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FP-PUT",
+					"id": "45364386-a2ad7ed3-763d-4442-bd31-69f9d97c2bbf",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/formas-de-pago/id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"formas-de-pago",
+								"id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FP-GET",
+					"id": "45364386-86ec31b3-0b20-453e-83be-473e74fa6076",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/formas-de-pago",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"formas-de-pago"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FP-POST",
+					"id": "45364386-adf6426a-7e3c-410c-bc27-80e5c7b9e2b6",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/formas-de-pago",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"formas-de-pago"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "45364386-d5379bc6-b5c7-4b3a-ae1d-e23563ab927f"
+		},
+		{
+			"name": "Dashboard",
+			"item": [
+				{
+					"name": "Dashboard- GET",
+					"id": "45364386-7fa304ab-fbe4-4ee9-815f-3b73c6c332ec",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/dashboard",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"dashboard"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "45364386-38af3a4a-a147-4287-8dce-130dcd3fee3e"
+		},
+		{
+			"name": "Consulta de ventas",
+			"item": [
+				{
+					"name": "Get data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8ede3d6f-d19f-41b8-b8b4-5600c5bf8e68",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "45364386-9f27b77b-5691-40ae-ba12-c51cd694da31",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/consulta-ventas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"consulta-ventas"
+							]
+						},
+						"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+					},
+					"response": []
+				},
+				{
+					"name": "Todas-Formas de Pagos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3fac3d66-0a6c-4c65-95bb-c48f799d2514",
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "45364386-e056f8c2-70bb-4311-a4f4-98d35c52d3ff",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Add your name in the body\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/consulta-ventas/resumen/todas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"consulta-ventas",
+								"resumen",
+								"todas"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "Ventas-Todas",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "74d232cb-638e-4e8b-8e92-1bc83727328d",
+								"exec": [
+									"pm.test(\"Successful DELETE request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 202, 204]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "45364386-7e23b258-de54-47f8-bd58-dea75ab1cfe6",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/consulta-ventas/todas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"consulta-ventas",
+								"todas"
+							]
+						},
+						"description": "This is a DELETE request, and it is used to delete data that was previously created via a POST request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful DELETE request typically returns a `200 OK`, `202 Accepted`, or `204 No Content` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "Ventas-Hoy",
+					"id": "45364386-044a3cdc-1353-4c28-aad0-c873e3357b32",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/consulta-ventas/hoy",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"consulta-ventas",
+								"hoy"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Detalle de venta",
+					"id": "45364386-d6b55a2b-b07b-454f-9891-6d969add963b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/consulta-ventas/{{id_venta}}/detalle",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"consulta-ventas",
+								"{{id_venta}}",
+								"detalle"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Hoy-Formas de Pagos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0341ac3d-a13d-4150-81dc-d81f68a95f7f",
+								"exec": [
+									"pm.test(\"Successful PUT request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "45364386-af78f9b3-432d-428a-9029-9a2ea9a8965c",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Add your name in the body\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/consulta-ventas/resumen/hoy",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"consulta-ventas",
+								"resumen",
+								"hoy"
+							]
+						},
+						"description": "This is a PUT request and it is used to overwrite an existing piece of data. For instance, after you create an entity with a POST request, you may want to modify that later. You can do that using a PUT request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful PUT request typically returns a `200 OK`, `201 Created`, or `204 No Content` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "formas de pago- resumen",
+					"id": "45364386-98b995b0-c126-4ef7-b774-c83cacca2fd1",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/consulta-ventas/resumen",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"consulta-ventas",
+								"resumen"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "45364386-67b9b92c-ffed-4bd1-9dd7-39e628ce3302"
+		},
+		{
+			"name": "Ventas",
+			"item": [
+				{
+					"name": "get- ventas",
+					"id": "45364386-9b5bf42b-2551-4ed4-ac3f-135f2fa2bd3d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/ventas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"ventas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Iniciar venta",
+					"id": "45364386-ca95b2dc-4d6a-48c9-bae5-75d371e468c4",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/ventas/iniciar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"ventas",
+								"iniciar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarCabecera",
+					"id": "45364386-fe50f768-7943-4371-8fca-75a2e0d38f6c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/ventas/{{id_venta}}/cabecera",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"ventas",
+								"{{id_venta}}",
+								"cabecera"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar producto Detalle",
+					"id": "45364386-f0724b4b-f1f8-4ece-ad6a-a1b44311a9b6",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/ventas/{{id_venta}}/detalle",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"ventas",
+								"{{id_venta}}",
+								"detalle"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "eliminar Producto",
+					"id": "45364386-90c1f108-deaa-4380-8caa-164511b7fce3",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/ventas/{{id_venta}}/detalle/{{codigo}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"ventas",
+								"{{id_venta}}",
+								"detalle",
+								"{{codigo}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Detalle",
+					"id": "45364386-00936225-774a-47f0-97d5-793f1a7dc058",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/ventas/{{id_venta}}/detalle",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"ventas",
+								"{{id_venta}}",
+								"detalle"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Totales",
+					"id": "45364386-cccb4eac-3ebe-4724-ad62-f0ceaf0c36a3",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/ventas/{{id_venta}}/totales",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"ventas",
+								"{{id_venta}}",
+								"totales"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Finalizar Venta",
+					"id": "45364386-a7fde2f2-9b01-47f6-82df-2b501aef2a13",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/ventas/{{id_venta}}/finalizar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"ventas",
+								"{{id_venta}}",
+								"finalizar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancelar Venta",
+					"id": "45364386-46511ee1-291e-419c-b181-e2d746c3acd6",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/ventas/{{id_venta}}/cancelar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"ventas",
+								"{{id_venta}}",
+								"cancelar"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "45364386-7d0da88f-5ebc-448b-85be-7f1e05f56517"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "530bbdd9-38d3-441e-92dc-61f171c18dc2",
+			"key": "id",
+			"value": "1"
+		},
+		{
+			"id": "57b5ecc1-1ffd-4eb5-a9a4-fa78c5251c5d",
+			"key": "base_url",
+			"value": "https://template.postman-echo.com"
+		}
+	]
+}
